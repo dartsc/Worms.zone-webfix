@@ -1,0 +1,118 @@
+:root {
+    --sp-size: 2.747vmin;
+    --sp-space: 1.0989vmin;
+    --sp-margin: 3.846vmin;
+    --sp-full-size: calc(var(--sp-size) * 2 + var(--sp-space));
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    overflow: hidden;
+    touch-action: none;
+    -ms-touch-action: none;
+    background-color: #000000;
+}
+
+div#viewport {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+div#viewport>canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    touch-action: none;
+    -ms-touch-action: none;
+    touch-action-delay: none;
+}
+
+.spinner {
+    position: absolute;
+    bottom: var(--sp-margin);
+    right: var(--sp-margin);
+    z-index: 2;
+
+    width: var(--sp-full-size);
+    height: var(--sp-full-size);
+}
+
+.spinner::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--sp-size) * -1);
+
+    display: block;
+    width: var(--sp-size);
+    height: var(--sp-size);
+
+    box-shadow: var(--sp-size) 0 0 0 transparent,
+        var(--sp-full-size) 0 0 0 rgba(255, 255, 255, 0.33),
+        var(--sp-full-size) calc(var(--sp-size) + var(--sp-space)) 0 0 rgba(255, 255, 255, 0.66),
+        var(--sp-size) calc(var(--sp-size) + var(--sp-space)) 0 0 #fff;
+    animation: spinner-anim 1s ease-in-out infinite;
+}
+
+@keyframes spinner-anim {
+    25% {
+        box-shadow: var(--sp-size) 0 0 0 #fff,
+            var(--sp-full-size) 0 0 0 transparent,
+            var(--sp-full-size) calc(var(--sp-size) + var(--sp-space)) 0 0 rgba(255, 255, 255, 0.33),
+            var(--sp-size) calc(var(--sp-size) + var(--sp-space)) 0 0 rgba(255, 255, 255, 0.66);
+    }
+
+    50% {
+        box-shadow: var(--sp-size) 0 0 0 rgba(255, 255, 255, 0.66),
+            var(--sp-full-size) 0 0 0 #fff,
+            var(--sp-full-size) calc(var(--sp-size) + var(--sp-space)) 0 0 transparent,
+            var(--sp-size) calc(var(--sp-size) + var(--sp-space)) 0 0 rgba(255, 255, 255, 0.33);
+    }
+
+    75% {
+        box-shadow: var(--sp-size) 0 0 0 rgba(255, 255, 255, 0.33),
+            var(--sp-full-size) 0 0 0 rgba(255, 255, 255, 0.66),
+            var(--sp-full-size) calc(var(--sp-size) + var(--sp-space)) 0 0 #fff,
+            var(--sp-size) calc(var(--sp-size) + var(--sp-space)) 0 0 transparent;
+    }
+
+    100% {
+        box-shadow: var(--sp-size) 0 0 0 transparent,
+            var(--sp-full-size) 0 0 0 rgba(255, 255, 255, 0.33),
+            var(--sp-full-size) calc(var(--sp-size) + var(--sp-space)) 0 0 rgba(255, 255, 255, 0.66),
+            var(--sp-size) calc(var(--sp-size) + var(--sp-space)) 0 0 #fff;
+    }
+}
+
+@media screen and (orientation: portrait) {
+    html.is-landscape {
+        transform: rotate(90deg);
+        transform-origin: top left;
+        width: 100vh;
+        width: 100dvh;
+        height: 100vw;
+        height: 100dvw;
+        position: absolute;
+        top: 0;
+        left: 100%;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    html.is-portrait {
+        transform: rotate(-90deg);
+        transform-origin: top right;
+        width: 100vh;
+        width: 100dvh;
+        height: 100vw;
+        height: 100dvw;
+        position: absolute;
+        top: 0;
+        right: 100%;
+    }
+}
