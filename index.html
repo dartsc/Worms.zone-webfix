@@ -9,11 +9,11 @@
       <meta content="WormsZone.io is an online game with a dynamic storyline and funny graphics." name=description>
       <meta content="wormszone, wormszone.io, worms.zone wormszoneio, slitherio, slither, wormaxio, wormax, wormateio, wormate, io, worm, worms, snake, snakes, game, online, games, web, html5, fun, mmo" name=keywords>
       <meta content=#000000 name=theme-color>
-      <link href=images/icon-512.png rel=icon sizes=512x512>
-      <link href=css/main.css rel=preload as=style>
-      <link href=css/main.css rel=stylesheet>
-      <link href=css/overlay.css rel=stylesheet>
-      <link href=manifest.json rel=manifest>
+      <link href="https://cdn.statically.io/gh/dartsc/Worms.zone-webfix/main/images/icon-512.png" rel=icon sizes=512x512>
+      <link href="https://cdn.statically.io/gh/dartsc/Worms.zone-webfix/main/css/main.css" rel=preload as=style>
+      <link href="https://cdn.statically.io/gh/dartsc/Worms.zone-webfix/main/css/main.css" rel=stylesheet>
+      <link href="https://cdn.statically.io/gh/dartsc/Worms.zone-webfix/main/css/overlay.css" rel=stylesheet>
+      <link href="https://cdn.statically.io/gh/dartsc/Worms.zone-webfix/main/manifest.json" rel=manifest>
       <meta content=yes name=mobile-web-app-capable>
       <meta content=yes name=apple-mobile-web-app-capable>
       <meta content="WormsZone.io - Slither Snake" property=og:title>
@@ -44,16 +44,16 @@
           console.log("error: " + JSON.stringify(o))
         }
       </script>
-      <script src=https://www.googletagmanager.com/gtag/js async></script>
+      <script src=https://cdn.jsdelivr.net/npm/gtag@1.14.0/dist/gtag.min.js async></script>
       <script>
         function gtag() {
           dataLayer.push(arguments)
         }
         window.dataLayer = window.dataLayer || [], gtag("js", new Date)
       </script>
-      <script src=https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js></script>
-      <script src=https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js></script>
-      <script src=https://www.gstatic.com/firebasejs/7.24.0/firebase-remote-config.js></script>
+      <script src=https://cdn.jsdelivr.net/npm/firebase@9.23.0/firebase-app.js></script>
+      <script src=https://cdn.jsdelivr.net/npm/firebase@9.23.0/firebase-analytics.js></script>
+      <script src=https://cdn.jsdelivr.net/npm/firebase@9.23.0/firebase-remote-config.js></script>
       <script>
         var firebaseConfig = {
           apiKey: "AIzaSyB2DcYpUnEE1KnQ_sn-Fj81AF43rQCfspQ",
@@ -84,7 +84,7 @@
         }
       </script>
       <script src=//api.adinplay.com/libs/aiptag/pub/WZN/worms.zone/tag.min.js async></script>
-      <script src=https://apis.google.com/js/platform.js></script>
+      <script src=https://cdn.jsdelivr.net/npm/google-platform@1.0.0/platform.js></script>
       <script>
         window.fbAsyncInit = function() {
             FB.init({
@@ -95,7 +95,7 @@
           },
           function(e, n, t) {
             var o, i = e.getElementsByTagName(n)[0];
-            e.getElementById(t) || ((o = e.createElement(n)).id = t, o.src = "https://connect.facebook.net/en_US/sdk.js", i.parentNode.insertBefore(o, i))
+            e.getElementById(t) || ((o = e.createElement(n)).id = t, o.src = "https://cdn.jsdelivr.net/npm/facebook-js-sdk@3.3.0/src/facebook.js", i.parentNode.insertBefore(o, i))
           }(document, "script", "facebook-jssdk")
       </script>
       <script>
@@ -124,7 +124,43 @@
         <div id=vaipcontainer></div>
       </div>
       <div id=xl_auth style=width:100%;height:1000px;display:none></div>
-      <script src="js/main.js?ver=6.15.2"></script>
-      <script src=WormsZone.js?ver=6.15.2 async></script>
+      <script>
+        // Configure Module to load assets from statically.io (supports large files)
+        var Module = {
+          locateFile: function(path) {
+            console.log('locateFile called with path:', path);
+            // Remove version parameter from path if present
+            var cleanPath = path.split('?')[0];
+            var fullUrl = "https://cdn.statically.io/gh/dartsc/Worms.zone-webfix/main/assets/" + cleanPath;
+            console.log('Redirecting to:', fullUrl);
+            return fullUrl;
+          }
+        };
+        
+        // Override any potential base URL or asset path detection
+        window.Module = Module;
+        
+        // Intercept fetch requests to redirect asset loading
+        const originalFetch = window.fetch;
+        window.fetch = function(input, init) {
+          let url = typeof input === 'string' ? input : input.url;
+          
+          // Check if this is a request for game assets
+          if (url.includes('/assets/') && url.includes('.pak')) {
+            // Extract the filename
+            const filename = url.split('/').pop().split('?')[0];
+            const newUrl = `https://cdn.statically.io/gh/dartsc/Worms.zone-webfix/main/assets/${filename}`;
+            console.log('Fetch intercepted - redirecting:', url, '→', newUrl);
+            return originalFetch(newUrl, init);
+          }
+          
+          return originalFetch(input, init);
+        };
+        
+        // Log configuration
+        console.log('Module and fetch interception configured for jsDelivr asset loading');
+      </script>
+      <script src="https://cdn.statically.io/gh/dartsc/Worms.zone-webfix/main/js/main.js"></script>
+      <script src="https://cdn.statically.io/gh/dartsc/Worms.zone-webfix/main/WormsZone.js"></script>
     </body>
   </html>

@@ -65,7 +65,7 @@ let xl;
 async function loadScripts() {
     if (isLoginSupported) {
         try {
-            await loadScript('https://login-sdk.xsolla.com/latest/');
+            await loadScript('https://cdn.jsdelivr.net/npm/@xsolla/login-sdk@latest/dist/xsolla-login.min.js');
     
             xl = new XsollaLogin.Widget({
                 projectId: XSOLLA_LOGIN_PROJECT_ID,
@@ -83,7 +83,7 @@ async function loadScripts() {
 
     if (isPaymentsSupported) {
         try {
-            await loadScript('https://static.xsolla.com/embed/paystation/1.2.8/widget.min.js');
+            await loadScript('https://cdn.jsdelivr.net/npm/@xsolla/paystation-widget@1.2.8/dist/widget.min.js');
         } catch (e) {
             logError(e, false);
             isPaymentsSupported = false;
